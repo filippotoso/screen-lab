@@ -90,7 +90,7 @@ class Client
             if (is_null($this->email) || is_null($this->password)) {
                 return FALSE;
             }
-            $this->refreshAccessToken($this->email, $this->password)
+            $this->refreshAccessToken($this->email, $this->password);
         }
 
         $result = call_user_func($callback);
