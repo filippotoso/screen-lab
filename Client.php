@@ -118,7 +118,7 @@ class Client
         }
 
         $client = new HTTPClient();
-
+        
         try {
             $res = $client->request('POST', 'https://screenlab.io/api/auth/session/', [
                 'json' => ['email' => $email, 'password' => $password],
@@ -143,7 +143,7 @@ class Client
     public function refreshAccessToken($email = null, $password = null) {
 
         $email = is_null($email) ? $this->email : $email;
-        $email = is_null($password) ? $this->password : $password;
+        $password = is_null($password) ? $this->password : $password;
 
         $data = static::getAccessToken($email, $password);
 
