@@ -118,7 +118,7 @@ class Client
         }
 
         $client = new HTTPClient();
-        
+
         try {
             $res = $client->request('POST', 'https://screenlab.io/api/auth/session/', [
                 'json' => ['email' => $email, 'password' => $password],
@@ -163,18 +163,24 @@ class Client
      * Generate a scan of the provided URL
      * @param  String  $url    The URL to be analyzed
      * @param  String  $name   The name of the screenshot (default sha1($url))
-     * @param  integer $width  The width of the screenshot (default 1366 pixels)
-     * @param  integer $height The height of the screenshot (default 768 pixels)
+     * @param  integer $width  The width of the screenshot (default null)
+     * @param  integer $height The height of the screenshot (default null)
      * @return Array|FALSE  The result of the request
      */
-    public function generateScan($url, $name = null, $width = 1366, $height = 768) {
+    public function generateScan($url, $name = null, $width = null, $height = null) {
 
         $data = [
             'testUrl' => $url,
             'name' => is_null($name) ? sha1($url) : $name,
-            'width' => $width,
-            'height' => $height,
         ];
+
+        if (!is_null($width)) {
+            $data['width'] = $width;
+        }
+
+        if (!is_null($height)) {
+            $data['height'] = $height;
+        }
 
         return $this->retry(function() use($data) {
             return $this->post('https://screenlab.io/api/scan', $data);
